@@ -10,7 +10,6 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--prefix=/dev/null"
 
 # Headers for better security and performance
 [[headers]]
