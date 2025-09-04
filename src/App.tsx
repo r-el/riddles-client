@@ -8,19 +8,22 @@ import AdminPage from "./components/admin/AdminPage";
 import PlayerProfilePage from "./components/profile/PlayerProfilePage";
 import NotFoundPage from "./components/common/NotFoundPage";
 import Layout from "./components/common/Layout";
+import { AuthProvider } from "./context/AuthContext";
 export default () => (
-  <Router>
-    <Layout>
-      <Routes>
-        <Route index element={<h1>Hello World2!</h1>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/riddles" element={<RiddlesPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/profile" element={<PlayerProfilePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Layout>
-  </Router>
+  <AuthProvider>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route index element={<h1>Hello World2!</h1>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/riddles" element={<RiddlesPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/profile" element={<PlayerProfilePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Layout>
+    </Router>
+  </AuthProvider>
 );
