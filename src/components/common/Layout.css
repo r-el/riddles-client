@@ -1,7 +1,7 @@
 #layout {
   display: flex;
   flex-direction: column;
-  /* overflow: hidden; /* Prevent body scroll when not needed */
+  overflow: hidden;
   min-height: 100vh;
 }
 
