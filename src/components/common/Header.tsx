@@ -1,7 +1,9 @@
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default () => {
+  const { isAuthenticated } = useAuth();
   return (
     <header id="header">
       {/* Logo */}
@@ -18,12 +20,20 @@ export default () => {
           <li>
             <Link to={"/leaderboard"}>Leaderboard</Link>
           </li>
-          <li>
-            <Link to={"/login"}>Login</Link>
-          </li>
-          <li>
-            <Link to={"/register"}>Register</Link>
-          </li>
+          {isAuthenticated ? (
+            <li>
+              <Link to={"profile"}>Profile</Link>
+            </li>
+          ) : (
+            <>
+              <li>
+                <Link to={"/login"}>Login</Link>
+              </li>
+              <li>
+                <Link to={"/register"}>Register</Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>
