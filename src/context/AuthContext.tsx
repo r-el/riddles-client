@@ -56,9 +56,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error: any) {
       console.error("Login error:", error);
+      
+      // Handle specific error responses from server
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.error || error.response.data.message || "Login failed";
+        return {
+          success: false,
+          error: { message: errorMessage, status: error.response.status },
+        };
+      }
+      
       return {
         success: false,
-        error: error || "Login error",
+        error: { message: error.message || "Login error" },
       };
     }
   };
@@ -84,9 +94,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error: any) {
       console.error("Register error:", error);
+      
+      // Handle specific error responses from server
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.error || error.response.data.message || "Registration failed";
+        return {
+          success: false,
+          error: { message: errorMessage },
+        };
+      }
+      
       return {
         success: false,
-        error: error || "Registration error",
+        error: { message: error.message || "Registration error" },
       };
     }
   };
