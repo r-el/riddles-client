@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { loginUser, type User } from "../services/api";
+import { loginUser, registerUser, type User } from "../services/api";
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<{ success: boolean; user?: User; error?: any }>;
+  register: (username: string, password: string) => Promise<{ success: boolean; user?: User; error?: any }>;
 }
 
 interface AuthProviderProps {
@@ -62,10 +63,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Register function
+  const register = async (username: string, password: string) => {
+    try {
+      const response = await registerUser({ username, password });
+
+      if (response.success && response.data) {
+        const { user: userData, token } = response.data;
+
+        setUser(userData);
+        setIsAuthenticated(true);
+
+        // Store in localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("token", token);
+
+        return { success: true, user: userData };
+      } else {
+        throw new Error(response.message || "Registration failed");
+      }
+    } catch (error: any) {
+      console.error("Register error:", error);
+      return {
+        success: false,
+        error: error || "Registration error",
+      };
+    }
+  };
+
   // Check if user is admin
   //   const isAdmin = () => user && user.role === "admin";
 
-  const value = { user, isAuthenticated, login };
+  const value = { user, isAuthenticated, login, register };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
